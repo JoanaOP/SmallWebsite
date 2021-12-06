@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GithubExample</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $("button").click(function(){
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.github.com/users/'+$("#username").val()+'/repos',
+                data: { get_param: 'value' },
+                dataType: 'json',
+                success: function (json) {
+                    $.each(json, function(index, element) {
+                        $("#name").append($('<div>', {
+                            text: element.name
+                        }));
+                        $("#desc").append($('<div>', {
+                            text: element.description
+                        }));
+                        $("#followers").append($('<div>', {
+                            text: element.stargazers_count
+                        }));
+                    });
+                }
+            });
+        });
+    });
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>
+        Github Repositories
+    </h1>
+    <p>Web page to ask for the repositories of a github user</p>
+
+    <form>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username"></input>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-sm-4" id="name">name</div>
+        <div class="col-sm-4" id="desc">description</div>
+        <div class="col-sm-4" id="followers">number of followers</div>
+    </div>
+
+    <button>Get repositories</button>
+
+
+</div>
+</body>
+</html>
